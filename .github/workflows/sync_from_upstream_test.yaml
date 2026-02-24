@@ -1,0 +1,184 @@
+name: Sync from Upstream (Test)
+
+# Test version of sync_from_upstream.yaml — identical logic but pushes to a
+# staging branch instead of main so the result can be reviewed before merging.
+
+on:
+  workflow_dispatch:
+    inputs:
+      upstream_ref:
+        description: 'Upstream branch or tag to sync from (e.g. main, v2.3.2)'
+        required: false
+        default: 'main'
+      target_branch:
+        description: 'Branch to push the sync result to'
+        required: false
+        default: 'sync-test'
+
+# Uses the org-level PAT secret for checkout so that git push can update
+# .github/workflows/ files. GITHUB_TOKEN cannot push workflow file changes;
+# a PAT with 'repo' and 'workflow' scopes is required.
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout template repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+
+      - name: Fetch upstream ref
+        run: |
+          git remote add upstream https://github.com/revisit-studies/study.git
+          UPSTREAM_REF="${{ github.event.inputs.upstream_ref }}"
+          git fetch upstream "${UPSTREAM_REF:-main}"
+          UPSTREAM_SHA=$(git rev-parse FETCH_HEAD)
+          echo "UPSTREAM_SHA=$UPSTREAM_SHA" >> "$GITHUB_ENV"
+          echo "Syncing from upstream @ $UPSTREAM_SHA"
+
+      - name: Create or reset target branch
+        run: |
+          TARGET_BRANCH="${{ github.event.inputs.target_branch }}"
+          TARGET_BRANCH="${TARGET_BRANCH:-sync-test}"
+          echo "TARGET_BRANCH=$TARGET_BRANCH" >> "$GITHUB_ENV"
+          # Create the branch from current HEAD (or reset it if it already exists)
+          git checkout -B "$TARGET_BRANCH"
+
+      - name: Sync core source and config files
+        run: |
+          # Full framework source
+          git checkout FETCH_HEAD -- src/
+
+          # E2E and unit tests
+          git checkout FETCH_HEAD -- tests/
+
+          # Root config files
+          git checkout FETCH_HEAD -- \
+            index.html \
+            tsconfig.json \
+            tsconfig.node.json \
+            vite.config.ts \
+            playwright.config.ts \
+            eslint.config.js \
+            typedoc.json \
+            typedocReadMe.md \
+            p_DO_NOT_USE_NPM_USE_YARN \
+            .gitignore
+
+          # Documentation/script generators (may not exist in older refs)
+          git checkout FETCH_HEAD -- libraryDocGenerator.cjs 2>/dev/null || true
+          git checkout FETCH_HEAD -- libraryExampleStudyGenerator.cjs 2>/dev/null || true
+
+          # Git hooks
+          git checkout FETCH_HEAD -- .husky/
+
+          # package.json (post-processed below to remove upstream-only deps)
+          git checkout FETCH_HEAD -- package.json
+
+      - name: Sync selected public/ subdirectories
+        run: |
+          # Sync shared assets and utilities only.
+          # public/global.json is intentionally NOT synced — template version preserved.
+          git checkout FETCH_HEAD -- \
+            public/libraries/ \
+            public/revisitAssets/ \
+            public/revisitUtilities/ \
+            public/404.html \
+            public/vite.svg
+
+      - name: Remove non-template study/demo folders from public/ and src/public/
+        run: |
+          # Top-level public/: keep only shared assets and utilities.
+          # All studies (including tutorial) and other extras are removed.
+          KEEP_PUBLIC=("libraries" "revisitAssets" "revisitUtilities" "404.html" "vite.svg" "global.json" "README.md")
+          for item in public/*; do
+            name=$(basename "$item")
+            keep=false
+            for k in "${KEEP_PUBLIC[@]}"; do
+              [[ "$name" == "$k" ]] && keep=true && break
+            done
+            if [[ "$keep" == false ]]; then
+              echo "Removing non-template item: $item"
+              rm -rf "$item"
+            fi
+          done
+
+          # src/public/: keep library React components only.
+          KEEP_SRC_PUBLIC=("libraries")
+          for item in src/public/*; do
+            [[ -e "$item" ]] || continue  # skip if glob matched nothing
+            name=$(basename "$item")
+            keep=false
+            for k in "${KEEP_SRC_PUBLIC[@]}"; do
+              [[ "$name" == "$k" ]] && keep=true && break
+            done
+            if [[ "$keep" == false ]]; then
+              echo "Removing non-template item: $item"
+              rm -rf "$item"
+            fi
+          done
+
+      - name: Sync GitHub Actions workflows (then restore both sync workflows)
+        run: |
+          git checkout FETCH_HEAD -- .github/workflows/
+          # Restore both sync workflows — neither exists in upstream
+          git checkout HEAD -- .github/workflows/sync_from_upstream.yaml
+          git checkout HEAD -- .github/workflows/sync_from_upstream_test.yaml
+
+      - name: Remove unused dependencies from package.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+
+            // Packages only used in example studies removed from this template.
+            const unusedDeps = [
+              '@visdesignlab/upset2-react', // UpSet2 example study only
+              'arquero',                    // src/public/tutorial/ brush components only
+              'topojson-client',            // src/public/demo-choropleth-map/ only
+              // MUI packages — not imported anywhere in src/ on dev branch
+              '@emotion/react',
+              '@emotion/styled',
+              '@mui/icons-material',
+              '@mui/material',
+              '@mui/system',
+              '@mui/x-data-grid',
+              'recoil',                     // not imported anywhere in src/
+            ];
+            unusedDeps.forEach((dep) => {
+              if (pkg.dependencies && dep in pkg.dependencies) {
+                console.log('Removing unused dep:', dep);
+                delete pkg.dependencies[dep];
+              }
+            });
+
+            // devDependencies only needed for removed example studies
+            const unusedDevDeps = [
+              '@types/topojson-client',        // only for demo-choropleth-map
+              '@types/topojson-specification', // only for demo-choropleth-map
+            ];
+            unusedDevDeps.forEach((dep) => {
+              if (pkg.devDependencies && dep in pkg.devDependencies) {
+                console.log('Removing unused devDep:', dep);
+                delete pkg.devDependencies[dep];
+              }
+            });
+
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+
+      - name: Commit and push to target branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes detected — template is already up to date with upstream."
+          else
+            SHORT_SHA="${UPSTREAM_SHA:0:7}"
+            git commit -m "chore: sync from upstream revisit-studies/study@${SHORT_SHA}"
+            git push --force origin "$TARGET_BRANCH"
+            echo "Pushed sync commit to $TARGET_BRANCH."
+          fi
