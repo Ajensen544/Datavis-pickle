@@ -21,6 +21,23 @@
         "autoDownloadStudy": false,
         "withSidebar": true
     },
+    "baseComponents": {
+        "trial": {
+        "description": "pickleball court react component",
+        "instruction": "Click where you think the pickleball will land",
+        "type": "react-component",
+        "path": "basic-questionnaire-study/assets/pickletrial.tsx",
+        "nextButtonLocation": "sidebar",
+        "response": [
+            {
+            "id": "pickleballAnswer",
+            "prompt": "Your predicted pickleball landing position",
+            "location": "sidebar",
+            "type": "reactive"
+            }
+        ]
+        }
+    },
     "components": {
         "introduction": {
             "type": "markdown",
