@@ -98,7 +98,7 @@
             "path": "basic-questionnaire-study/assets/conc.md",
             "response": []
         },
-        "pickleball-trial1": {
+        "pickleball-trial-shot1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "startX": 1,
@@ -107,7 +107,7 @@
                 "ballColor": "yellow"
             }    
         },
-        "pickleball-trial2": {
+        "pickleball-trial-shot2": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "startX": 1,
@@ -116,7 +116,7 @@
                 "ballColor": "blue"
             }    
         },
-        "pickleball-trial3": {
+        "pickleball-trial-court1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "startX": 1,
@@ -125,7 +125,7 @@
                 "ballColor": "yellow"
             }    
         },
-        "pickleball-trial4": {
+        "pickleball-trial-court2": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "startX": 1,
@@ -134,7 +134,7 @@
                 "ballColor": "blue"
             }    
         },
-        "pickleball-trial5": {
+        "pickleball-trial-ball1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "startX": 1,
@@ -143,7 +143,7 @@
                 "ballColor": "yellow"
             }    
         },
-        "pickleball-trial6": {
+        "pickleball-trial-ball2": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "startX": 1,
@@ -162,22 +162,22 @@
             {
                 "order": "random",
                 "components": [
-                    "pickleball-trial1",
-                    "pickleball-trial2"
+                    "pickleball-trial-shot1",
+                    "pickleball-trial-shot2"
                 ]
             },
             {
                 "order": "random",
                 "components": [
-                    "pickleball-trial3",
-                    "pickleball-trial4"
+                    "pickleball-trial-court1",
+                    "pickleball-trial-court2"
                 ]
             },
             {
                 "order": "random",
                 "components": [
-                    "pickleball-trial5",
-                    "pickleball-trial6"
+                    "pickleball-trial-ball1",
+                    "pickleball-trial-ball2"
                 ]
             },
             "postsurvey",
