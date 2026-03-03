@@ -12,7 +12,7 @@ const path = require("path");
 
 const PORT = 8080;
 const CSV_FILE = path.join(__dirname, "results.csv");
-const HEADER = "trialId,timestamp,startX,startY,endX,endY,speed,height,ballColor,courtColor,guessX,guessY,errorFt";
+const HEADER = "trialId,timestamp,shotType,startX,startY,endX,endY,speed,height,ballColor,courtColor,guessX,guessY,errorFt";
 
 // ── MIME types for static files ──
 const MIME = {
@@ -48,7 +48,7 @@ const server = http.createServer((req, res) => {
             try {
                 const r = JSON.parse(body);
                 const row = [
-                    r.trialId, r.timestamp, r.startX, r.startY, r.endX, r.endY,
+                    r.trialId, r.timestamp, r.shotType, r.startX, r.startY, r.endX, r.endY,
                     r.speed, r.height, r.ballColor, r.courtColor,
                     r.guessX, r.guessY, r.errorFt,
                 ].join(",");

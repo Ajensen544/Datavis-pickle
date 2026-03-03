@@ -66,6 +66,10 @@ function generateTrials(count, ranges, extras = {}) {
             ],
             ...extras,
         };
+        // Copy shotType label if provided
+        if (ranges.shotType) {
+            trial.shotType = ranges.shotType;
+        }
         // Randomize speed if a range is provided
         if (ranges.speed) {
             trial.speed = Math.round(randomBetween(ranges.speed[0], ranges.speed[1]));
@@ -87,37 +91,115 @@ function generateTrials(count, ranges, extras = {}) {
     return trials;
 }
 
-// ── Hardcode your ranges & options here ─────────────────
-// Position ranges in feet, speed in ms, height in px.
-// ballColors / courtColors: arrays of CSS colors to randomly pick from.
+// ─────────────────────────────────────────────────────────────
+// Court geometry reference:
+//   Width  (X): 0 – 20 ft   (sideline to sideline)
+//   Length (Y): 0 – 44 ft   (baseline to baseline, net at 22)
+//   Each half‑court is 22 ft deep.
+//   "Back"  = near baseline,  "Front" = near net.
+// ─────────────────────────────────────────────────────────────
 
-const trials = generateTrials(5, {
-    startX: [5, 15],
-    startY: [0, 5],
-    endX: [2, 18],
-    endY: [20, 40],
-    speed: [800, 2500],
-    height: [5, 25],
-    ballColors: ["#ccff00", "#ff6600", "#ff69b4", "#00e5ff"],  // yellow, orange, pink, cyan
-    courtColors: ["#2e7d32", "#1a237e", "#4a148c"],             // green, blue, purple
-});
+// ── Shared shot-type position/speed/height ranges ────────────
+const DRIVE = {                           // Hard drive to back of far side
+    shotType: "drive",
+    startX: [0, 20], startY: [0, 2.2],   // back 10% of near half
+    endX: [0, 20], endY: [38.5, 44], // back 25% of far half
+    speed: [800, 1200],                  // fast
+    height: [3, 10],                      // low–mid arc
+};
+const DROP = {                            // Soft drop into the kitchen
+    shotType: "drop",
+    startX: [0, 20], startY: [0, 6.6],   // back 30% of near half
+    endX: [0, 20], endY: [23.1, 25.3],// front 5–15% of far half
+    speed: [1600, 2200],                 // slow–mid
+    height: [3, 10],                      // low–mid arc
+};
+const LOB = {                             // High lob deep
+    shotType: "lob",
+    startX: [0, 20], startY: [0, 4.4],   // back 20% of near half
+    endX: [0, 20], endY: [40.7, 44], // back 15% of far half
+    speed: [1200, 1800],                 // medium
+    height: [18, 25],                     // high arc
+};
 
-// You can also mix in manual trials or fixed-override batches:
-// const trials = [
-//     ...generateTrials(3, { startX:[8,12], startY:[0,2], endX:[2,18], endY:[25,40], speed:[1000,2000], height:[8,20] }),
-//     ...generateTrials(2, { startX:[8,12], startY:[0,2], endX:[2,18], endY:[25,40], speed:[500,800], height:[3,8] }, { ballColor: "#ff6600" }),
-//     { start: [10, 0], end: [10, 30], speed: 2000, height: 15, ballColor: "#ff69b4" },
-// ];
+// ── Color palettes ───────────────────────────────────────────
+const BALL_COLORS = {
+    neonYellow: "#ccff00",
+    orange: "#ff6600",
+    hotPink: "#ff69b4",
+    cyan: "#00e5ff",
+};
+const COURT_COLORS = {
+    blue: "#1a237e",
+    green: "#2e7d32",
+    purple: "#4a148c",
+    red: "#c62828",
+};
+
+// ═════════════════════════════════════════════════════════════
+//  TRIALS
+// ═════════════════════════════════════════════════════════════
+
+const trials = [
+
+    // ─────────────────────────────────────────────────────────
+    //  BASELINE — Neon yellow ball, blue court  (15 trials)
+    //  5 drives + 5 drops + 5 lobs
+    // ─────────────────────────────────────────────────────────
+    ...generateTrials(1, { ...DRIVE, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...DROP, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...LOB, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.blue] }),
+
+    // ─────────────────────────────────────────────────────────
+    //  BALL COLOR TEST — Court fixed: blue  (27 trials)
+    //  3 ball colors × 3 shot types × 3 trials each
+    // ─────────────────────────────────────────────────────────
+
+    // Orange ball
+    ...generateTrials(1, { ...DRIVE, ballColors: [BALL_COLORS.orange], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...DROP, ballColors: [BALL_COLORS.orange], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...LOB, ballColors: [BALL_COLORS.orange], courtColors: [COURT_COLORS.blue] }),
+
+    // Hot pink ball
+    ...generateTrials(1, { ...DRIVE, ballColors: [BALL_COLORS.hotPink], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...DROP, ballColors: [BALL_COLORS.hotPink], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...LOB, ballColors: [BALL_COLORS.hotPink], courtColors: [COURT_COLORS.blue] }),
+
+    // Cyan ball
+    ...generateTrials(1, { ...DRIVE, ballColors: [BALL_COLORS.cyan], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...DROP, ballColors: [BALL_COLORS.cyan], courtColors: [COURT_COLORS.blue] }),
+    ...generateTrials(1, { ...LOB, ballColors: [BALL_COLORS.cyan], courtColors: [COURT_COLORS.blue] }),
+
+    // ─────────────────────────────────────────────────────────
+    //  COURT COLOR TEST — Ball fixed: neon yellow  (27 trials)
+    //  3 court colors × 3 shot types × 3 trials each
+    // ─────────────────────────────────────────────────────────
+
+    // Green court
+    ...generateTrials(1, { ...DRIVE, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.green] }),
+    ...generateTrials(1, { ...DROP, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.green] }),
+    ...generateTrials(1, { ...LOB, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.green] }),
+
+    // Purple court
+    ...generateTrials(1, { ...DRIVE, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.purple] }),
+    ...generateTrials(1, { ...DROP, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.purple] }),
+    ...generateTrials(1, { ...LOB, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.purple] }),
+
+    // Red court
+    ...generateTrials(1, { ...DRIVE, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.red] }),
+    ...generateTrials(1, { ...DROP, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.red] }),
+    ...generateTrials(1, { ...LOB, ballColors: [BALL_COLORS.neonYellow], courtColors: [COURT_COLORS.red] }),
+];
 
 // ─── 5. Run the experiment ──────────────────
 createTrialEngine(svg, config, trials, (results) => {
     console.log("All results:", results);
 
     // Pretty-print the CSV to the console
-    const header = "trialId,timestamp,startX,startY,endX,endY,speed,height,ballColor,courtColor,guessX,guessY,errorFt";
+    const header = "trialId,timestamp,shotType,startX,startY,endX,endY,speed,height,ballColor,courtColor,guessX,guessY,errorFt";
     const rows = results.map(
         (r) =>
-            `${r.trialId},${r.timestamp},${r.startX},${r.startY},${r.endX},${r.endY},${r.speed},${r.height},${r.ballColor},${r.courtColor},${r.guessX},${r.guessY},${r.errorFt}`
+            `${r.trialId},${r.timestamp},${r.shotType},${r.startX},${r.startY},${r.endX},${r.endY},${r.speed},${r.height},${r.ballColor},${r.courtColor},${r.guessX},${r.guessY},${r.errorFt}`
     );
     console.log([header, ...rows].join("\n"));
 });

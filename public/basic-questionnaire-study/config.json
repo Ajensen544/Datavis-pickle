@@ -45,7 +45,11 @@
                     "location": "aboveStimulus",
                     "type": "dropdown",
                     "placeholder": "Please choose your favorite color",
-                    "options": ["Red", "Blue", "My favorite color is not shown here."]
+                    "options": [
+                        "Red",
+                        "Blue",
+                        "My favorite color is not shown here."
+                    ]
                 }
             ]
         },
@@ -63,6 +67,13 @@
                     "numItems": 5
                 }
             ]
+        },
+        "pickleball-trials": {
+            "type": "website",
+            "path": "basic-questionnaire-study/assets/index.html",
+            "instruction": "Watch the ball carefully and click where you think it landed.",
+            "response": [],
+            "withSidebar": false
         }
     },
     "sequence": {
@@ -70,6 +81,7 @@
         "components": [
             "introduction",
             "first-question-set",
+            "pickleball-trials",
             "second-question-set"
         ]
     }

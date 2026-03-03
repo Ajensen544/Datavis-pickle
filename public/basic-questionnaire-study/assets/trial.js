@@ -69,6 +69,7 @@ export async function createTrialEngine(svg, config, trials, onComplete) {
         const trialResult = {
             trialId: startId + currentTrial,
             timestamp: new Date().toISOString(),
+            shotType: trial.shotType ?? "unknown",
             // ── Inputs ──
             startX: trial.start[0],
             startY: trial.start[1],
