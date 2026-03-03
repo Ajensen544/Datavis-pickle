@@ -1,3 +1,3 @@
 # Introduction
 
-Welcome to our study. This is a basic questionnaire study. We will only ask you a few questions and then we will be done.
+Welcome to our study. This is a basic data visualization experiment for CS 573 created by Jacob, Zack, and Aksel. Press Next to advance through each slide.
