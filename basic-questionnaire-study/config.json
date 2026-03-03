@@ -1,0 +1,196 @@
+{
+    "$schema": "https://raw.githubusercontent.com/revisit-studies/study/main/src/parser/StudyConfigSchema.json",
+    "studyMetadata": {
+        "title": "Basic Questionnaire Study",
+        "version": "pilot",
+        "authors": [
+            "The reVISit Team"
+        ],
+        "date": "2024-03-19",
+        "description": "A simple questionnaire study",
+        "organizations": [
+            "University of Utah",
+            "WPI"
+        ]
+    },
+    "uiConfig": {
+        "contactEmail": "contact@revisit.dev",
+        "helpTextPath": "basic-questionnaire-study/assets/help.md",
+        "logoPath": "revisitAssets/revisitLogoSquare.svg",
+        "withProgressBar": true,
+        "autoDownloadStudy": false,
+        "withSidebar": true
+    },
+    "baseComponents": {
+        "pickletrial": {
+        "description": "pickleball court react component",
+        "instruction": "Click where you think the pickleball will land",
+        "type": "react-component",
+        "path": "basic-questionnaire-study/assets/pickletrial.tsx",
+        "nextButtonLocation": "sidebar",
+        "response": [
+            {
+            "id": "pickleballAnswer",
+            "prompt": "Your predicted pickleball landing position",
+            "location": "sidebar",
+            "type": "reactive"
+            }
+        ]
+        }
+    },
+    "components": {
+        "introduction": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/introduction.md",
+            "response": []
+        },
+        "demographics": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "age",
+                    "prompt": "What is your age?",
+                    "required": true,
+                    "location": "aboveStimulus",
+                    "type": "numerical",
+                    "placeholder": "Please enter your age"
+                },
+                {
+                    "id": "gender",
+                    "prompt": "What is your gender?",
+                    "required": true,
+                    "location": "aboveStimulus",
+                    "type": "dropdown",
+                    "placeholder": "Please select your gender",
+                    "options": ["Male", "Female", "Non-binary", "Prefer not to say"]
+                },
+                {
+                    "id": "paddleExperience",
+                    "prompt": "How many years of experience do you have playing a paddle sport?",
+                    "required": true,
+                    "location": "aboveStimulus",
+                    "type": "numerical",
+                    "placeholder": "Please enter your years of experience"
+                }
+            ]
+        },
+        "descriptions": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/desc.md",
+            "response": []
+        },
+        "postsurvey": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "feedback",
+                    "prompt": "Please provide any feedback you have about this survey.",
+                    "required": false,
+                    "location": "aboveStimulus",
+                    "type": "longText",
+                    "placeholder": "Your feedback is appreciated!"
+                }
+            ]
+
+        },
+        "conclusion": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/conc.md",
+            "response": []
+        },
+        "pickleball-trial-shot1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "startX": 12,
+                "startY": 12,
+                "courtColor": "green",
+                "ballColor": "yellow"
+            }    
+        },
+        "pickleball-trial-shot2": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "startX": 1,
+                "startY": 1,
+                "endX": 30,
+                "endY": 10,
+                "courtColor": "green",
+                "ballColor": "blue",
+                "percentageOfArc": 100
+            }    
+        },
+        "pickleball-trial-court1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "startX": 1,
+                "startY": 1,
+                "courtColor": "red",
+                "ballColor": "yellow"
+            }    
+        },
+        "pickleball-trial-court2": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "startX": 1,
+                "startY": 1,
+                "courtColor": "red",
+                "ballColor": "blue"
+            }    
+        },
+        "pickleball-trial-ball1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "startX": 1,
+                "startY": 1,
+                "courtColor": "orange",
+                "ballColor": "yellow"
+            }    
+        },
+        "pickleball-trial-ball2": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "startX": 1,
+                "startY": 1,
+                "courtColor": "orange",
+                "ballColor": "blue"
+            }    
+        }
+    },
+    "sequence": {
+        "order": "fixed",
+        "components": [
+            "introduction",
+            "demographics",
+            "descriptions",
+            {
+                "order": "fixed",
+                "components": [
+                    "pickleball-trial-shot1",
+                    "pickleball-trial-shot2"
+                ]
+            },
+            {
+                "order": "fixed",
+                "components": [
+                    "pickleball-trial-court1",
+                    "pickleball-trial-court2"
+                ]
+            },
+            {
+                "order": "fixed",
+                "components": [
+                    "pickleball-trial-ball1",
+                    "pickleball-trial-ball2"
+                ]
+            },
+            "postsurvey",
+            "conclusion"
+        ]
+    }
+}
