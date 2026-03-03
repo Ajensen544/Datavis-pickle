@@ -1,6 +1,7 @@
 import { Stack, Switch } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { useStorageEngine } from '../../../storage/storageEngineHooks';
+import { REVISIT_MODE } from '../../../storage/engines/types';
 
 export function RevisitModesAccordionItem({ studyId }: { studyId: string }) {
   const { storageEngine } = useStorageEngine();
@@ -15,23 +16,23 @@ export function RevisitModesAccordionItem({ studyId }: { studyId: string }) {
       if (storageEngine) {
         const modes = await storageEngine.getModes(studyId);
         setDataCollectionEnabled(modes.dataCollectionEnabled);
-        setStudyNavigatorEnabled(modes.studyNavigatorEnabled);
-        setAnalyticsInterfacePubliclyAccessible(modes.analyticsInterfacePubliclyAccessible);
+        setStudyNavigatorEnabled(modes.developmentModeEnabled);
+        setAnalyticsInterfacePubliclyAccessible(modes.dataSharingEnabled);
         setAsyncStatus(true);
       }
     };
     fetchData();
   }, [storageEngine, studyId]);
 
-  const handleSwitch = async (key: 'dataCollectionEnabled' | 'studyNavigatorEnabled' | 'analyticsInterfacePubliclyAccessible', value: boolean) => {
+  const handleSwitch = async (key: REVISIT_MODE, value: boolean) => {
     if (storageEngine) {
       await storageEngine.setMode(studyId, key, value);
 
       if (key === 'dataCollectionEnabled') {
         setDataCollectionEnabled(value);
-      } else if (key === 'studyNavigatorEnabled') {
+      } else if (key === 'developmentModeEnabled') {
         setStudyNavigatorEnabled(value);
-      } else if (key === 'analyticsInterfacePubliclyAccessible') {
+      } else if (key === 'dataSharingEnabled') {
         setAnalyticsInterfacePubliclyAccessible(value);
       }
     }
@@ -48,12 +49,12 @@ export function RevisitModesAccordionItem({ studyId }: { studyId: string }) {
         <Switch
           label="Study Navigator Enabled"
           checked={studyNavigatorEnabled}
-          onChange={(event) => handleSwitch('studyNavigatorEnabled', event.currentTarget.checked)}
+          onChange={(event) => handleSwitch('developmentModeEnabled', event.currentTarget.checked)}
         />
         <Switch
           label="Analytics Interface Publicly Accessible"
           checked={analyticsInterfacePubliclyAccessible}
-          onChange={(event) => handleSwitch('analyticsInterfacePubliclyAccessible', event.currentTarget.checked)}
+          onChange={(event) => handleSwitch('dataSharingEnabled', event.currentTarget.checked)}
         />
       </Stack>
     )
