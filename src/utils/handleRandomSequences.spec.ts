@@ -156,10 +156,12 @@ describe('Generating sequences works as expected', () => {
   });
 
   test('generateSequenceArray matches expected distribution for test-randomization study', () => {
+    const typedRandomizationConfig = testRandomizationConfig as unknown as StudyConfig;
     const randomizationConfig = {
-      ...(testRandomizationConfig as StudyConfig),
+      ...typedRandomizationConfig,
       uiConfig: {
-        ...(testRandomizationConfig as StudyConfig).uiConfig,
+        ...typedRandomizationConfig.uiConfig,
+        logoPath: typedRandomizationConfig.uiConfig.logoPath ?? '',
         numSequences: 1000,
       },
     } as StudyConfig;

@@ -45,11 +45,13 @@ export const defaultConfig = {
   trialDelay: 2000, // ms – pause between trials
 };
 
+type PixelConfig = Pick<typeof defaultConfig, 'courtWidthFt' | 'courtHeightFt' | 'kitchenDepthFt' | 'scale'>;
+
 /**
  * Helper: derive pixel values from a config object.
  * Call this once and pass the result wherever you need px values.
  */
-export function derivePixels(config: typeof defaultConfig) {
+export function derivePixels(config: PixelConfig) {
   const s = config.scale;
   return {
     courtW: config.courtWidthFt * s,
