@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
+import { StimulusParams } from '../../../store/types';
 // Import trial engine and config helpers
 import { createTrialEngine } from './trial';
 import { defaultConfig, derivePixels } from './config';
@@ -33,6 +34,7 @@ interface TrialResult {
 }
 
 interface TrialParameters {
+  taskid?: string;
   startX?: number;
   startY?: number;
   endX?: number;
@@ -44,20 +46,16 @@ interface TrialParameters {
   courtColor?: string;
 }
 
-interface PickleTrialProps {
-  parameters: TrialParameters;
-  config?: typeof defaultConfig;
-  trials?: TrialInput[];
-  onComplete?: (results: TrialResult[]) => void;
-}
-
 // Accepts parameters for a single trial, or an array of trials
 function PickleTrial({
-  parameters, config = defaultConfig, trials: propTrials, onComplete,
-}: PickleTrialProps) {
+  parameters,
+  setAnswer,
+}: StimulusParams<TrialParameters>) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [results, setResults] = useState<TrialResult[]>([]);
   const [trialComplete, setTrialComplete] = useState(false);
+  const config = defaultConfig;
+  const taskid = parameters.taskid ?? 'pickleballAnswer';
 
   const mapDisplayToEngineCoords = (x: number, y: number): [number, number] => {
     const mappedX = y;
@@ -66,7 +64,7 @@ function PickleTrial({
   };
 
   // Compose trials array from parameters or propTrials
-  const inputTrials = propTrials || [
+  const inputTrials: TrialInput[] = [
     {
       start: [parameters.startX ?? 2, parameters.startY ?? 2],
       end: [parameters.endX ?? 10, parameters.endY ?? 20],
@@ -86,6 +84,12 @@ function PickleTrial({
 
   useEffect(() => {
     if (!svgRef.current) return;
+    setAnswer({
+      status: false,
+      answers: {
+        [taskid]: '',
+      },
+    });
     // Clear SVG
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
@@ -105,10 +109,33 @@ function PickleTrial({
     createTrialEngine(g, config, trials, (res: TrialResult[]) => {
       setResults(res);
       setTrialComplete(true);
-      if (onComplete) onComplete(res);
+      const lastResult = res[res.length - 1];
+      if (!lastResult) {
+        setAnswer({
+          status: false,
+          answers: {
+            [taskid]: '',
+          },
+        });
+        return;
+      }
+
+      setAnswer({
+        status: true,
+        answers: {
+          [taskid]: JSON.stringify({
+            trialId: lastResult.trialId,
+            guessX: lastResult.guessX,
+            guessY: lastResult.guessY,
+            errorFt: lastResult.errorFt,
+            ballColor: lastResult.ballColor,
+            courtColor: lastResult.courtColor,
+          }),
+        },
+      });
     });
     // eslint-disable-next-line
-    }, [JSON.stringify(parameters), JSON.stringify(propTrials)]);
+  }, [JSON.stringify(parameters), setAnswer, taskid]);
 
   // results stored in results
 

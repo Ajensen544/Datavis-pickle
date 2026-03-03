@@ -113,6 +113,44 @@ export async function createTrialEngine(
   const originalCourtColor = config.colors.court;
   const originalKitchenColor = config.colors.kitchen;
 
+  function runTrial(): void {
+    if (currentTrial >= trials.length) {
+      setCourtColor(svg, originalCourtColor, originalKitchenColor);
+      if (onComplete) onComplete(results);
+      return;
+    }
+
+    const trial = trials[currentTrial];
+    actualLanding = { x: trial.end[0], y: trial.end[1] };
+
+    if (trial.courtColor) {
+      setCourtColor(svg, trial.courtColor, originalKitchenColor);
+    } else {
+      setCourtColor(svg, originalCourtColor, originalKitchenColor);
+    }
+
+    const shotOverrides: ShotOverrides = {};
+    if (trial.speed !== undefined) shotOverrides.speed = trial.speed;
+    if (trial.height !== undefined) shotOverrides.height = trial.height;
+    if (trial.percentageOfArc !== undefined) shotOverrides.percentageOfArc = trial.percentageOfArc;
+    if (trial.ballColor !== undefined) shotOverrides.ballColor = trial.ballColor;
+
+    simulateShot(
+      svg,
+      config,
+      trial.start[0],
+      trial.start[1],
+      trial.end[0],
+      trial.end[1],
+      shotOverrides,
+    );
+
+    const duration = trial.speed ?? config.ball.shotDuration;
+    setTimeout(() => {
+      canClick = true;
+    }, duration);
+  }
+
   svg.on('click', (event: MouseEvent) => {
     if (!canClick) return;
     canClick = false;
@@ -199,44 +237,6 @@ export async function createTrialEngine(
       .style('opacity', 0.7);
 
     currentTrial += 1;
-    function runTrial(): void {
-      if (currentTrial >= trials.length) {
-        setCourtColor(svg, originalCourtColor, originalKitchenColor);
-        //   console.log('Experiment Complete!');
-        if (onComplete) onComplete(results);
-        return;
-      }
-
-      actualLanding = { x: trial.end[0], y: trial.end[1] };
-
-      if (trial.courtColor) {
-        setCourtColor(svg, trial.courtColor, originalKitchenColor);
-      } else {
-        setCourtColor(svg, originalCourtColor, originalKitchenColor);
-      }
-
-      const shotOverrides: ShotOverrides = {};
-      if (trial.speed !== undefined) shotOverrides.speed = trial.speed;
-      if (trial.height !== undefined) shotOverrides.height = trial.height;
-      if (trial.percentageOfArc !== undefined) shotOverrides.percentageOfArc = trial.percentageOfArc;
-      if (trial.ballColor !== undefined) shotOverrides.ballColor = trial.ballColor;
-
-      simulateShot(
-        svg,
-        config,
-        trial.start[0],
-        trial.start[1],
-        trial.end[0],
-        trial.end[1],
-        shotOverrides,
-      );
-
-      const duration = trial.speed ?? config.ball.shotDuration;
-      setTimeout(() => {
-        canClick = true;
-        //   console.log('Click where you think the ball landed!');
-      }, duration);
-    }
     setTimeout(() => {
       svg.selectAll('circle').remove();
       runTrial();

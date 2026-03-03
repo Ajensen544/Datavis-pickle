@@ -101,6 +101,7 @@
         "pickleball-trial1": {
             "baseComponent": "pickletrial",
             "parameters": {
+                "taskid": "pickleballAnswer",
                 "startX": 12,
                 "startY": 12,
                 "courtColor": "green",
@@ -110,6 +111,7 @@
         "pickleball-trial2": {
             "baseComponent": "pickletrial",
             "parameters": {
+                "taskid": "pickleballAnswer",
                 "startX": 1,
                 "startY": 1,
                 "endX": 30,
@@ -122,6 +124,7 @@
         "pickleball-trial3": {
             "baseComponent": "pickletrial",
             "parameters": {
+                "taskid": "pickleballAnswer",
                 "startX": 1,
                 "startY": 1,
                 "courtColor": "red",
@@ -131,6 +134,7 @@
         "pickleball-trial4": {
             "baseComponent": "pickletrial",
             "parameters": {
+                "taskid": "pickleballAnswer",
                 "startX": 1,
                 "startY": 1,
                 "courtColor": "red",
@@ -140,6 +144,7 @@
         "pickleball-trial5": {
             "baseComponent": "pickletrial",
             "parameters": {
+                "taskid": "pickleballAnswer",
                 "startX": 1,
                 "startY": 1,
                 "courtColor": "orange",
@@ -149,6 +154,7 @@
         "pickleball-trial6": {
             "baseComponent": "pickletrial",
             "parameters": {
+                "taskid": "pickleballAnswer",
                 "startX": 1,
                 "startY": 1,
                 "courtColor": "orange",
@@ -163,21 +169,21 @@
             "demographics",
             "descriptions",
             {
-                "order": "random",
+                "order": "fixed",
                 "components": [
                     "pickleball-trial1",
                     "pickleball-trial2"
                 ]
             },
             {
-                "order": "random",
+                "order": "fixed",
                 "components": [
                     "pickleball-trial3",
                     "pickleball-trial4"
                 ]
             },
             {
-                "order": "random",
+                "order": "fixed",
                 "components": [
                     "pickleball-trial5",
                     "pickleball-trial6"
