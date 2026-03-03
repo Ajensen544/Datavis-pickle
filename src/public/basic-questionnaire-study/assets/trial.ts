@@ -195,11 +195,11 @@ export async function createTrialEngine(
     // );
 
     // Save trial result to server
-    fetch('/api/log', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(trialResult),
-    }).catch((err) => console.warn('Could not save trial:', err));
+    // fetch('/api/log', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(trialResult),
+    // }).catch((err) => console.warn('Could not save trial:', err));
 
     svg
       .append('circle')
