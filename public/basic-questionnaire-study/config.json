@@ -124,8 +124,8 @@
                 "startY": 1,
                 "endX": 20,
                 "endY": 20,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 85
             }    
         },
@@ -137,8 +137,8 @@
                 "startY": 1,
                 "endX": 25,
                 "endY": 15,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -150,8 +150,8 @@
                 "startY": 1,
                 "endX": 30,
                 "endY": 10,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 90
             }    
         },
@@ -163,8 +163,8 @@
                 "startY": 1,
                 "endX": 40,
                 "endY": 8,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -176,8 +176,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 95
             }    
         },
@@ -189,8 +189,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 75
             }    
         },
@@ -202,8 +202,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 65
             }    
         },
@@ -215,8 +215,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 73
             }    
         },
@@ -228,8 +228,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 80
             }    
         },
@@ -241,8 +241,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 55
             }    
         },
@@ -254,8 +254,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(207, 51%, 62%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(207, 51%, 62%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -267,8 +267,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(214, 84%, 75%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(214, 84%, 75%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -280,8 +280,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(351, 49%, 74%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(351, 49%, 74%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -293,8 +293,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(200, 37%, 35%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(200, 37%, 35%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -306,8 +306,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(40, 53%, 79%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(40, 53%, 79%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -319,8 +319,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(62, 100%, 94%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(62, 100%, 94%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -332,8 +332,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(76, 69%, 98%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(76, 69%, 98%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -345,8 +345,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(27, 100%, 99%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(27, 100%, 99%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -358,8 +358,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(325, 80%, 95%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(325, 80%, 95%, 1)",
                 "percentageOfArc": 100
             }    
         },
@@ -371,8 +371,8 @@
                 "startY": 1,
                 "endX": 10,
                 "endY": 30,
-                "courtColor": "hsva(198, 71%, 56%, 1)",
-                "ballColor": "hsva(40, 53%, 79%, 1)",
+                "courtColor": "hsla(198, 71%, 56%, 1)",
+                "ballColor": "hsla(40, 53%, 79%, 1)",
                 "percentageOfArc": 100
             }    
         }
