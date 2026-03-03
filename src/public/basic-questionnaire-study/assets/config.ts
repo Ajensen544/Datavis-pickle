@@ -16,27 +16,29 @@ export const defaultConfig = {
   scale: 24, // pixels per foot
 
   // ── SVG Margins ──
-  margin: { top: 40, right: 40, bottom: 40, left: 40 },
+  margin: {
+    top: 40, right: 40, bottom: 40, left: 40,
+  },
 
   // ── Colors ──
   colors: {
-    court: "#2e7d32",
-    kitchen: "#1b5e20",
-    lines: "white",
+    court: '#2e7d32',
+    kitchen: '#1b5e20',
+    lines: 'white',
     lineWidth: 3,
     netWidth: 4,
-    ball: "#ccff00",
-    ballStroke: "black",
-    feedbackCorrect: "green",
-    guessColor: "red",
+    ball: '#ccff00',
+    ballStroke: 'black',
+    feedbackCorrect: 'green',
+    guessColor: 'red',
   },
 
   // ── Ball Animation ──
   ball: {
     radius: 4,
-    shotDuration: 1500,   // ms – how long the shot animation takes
-    dropDuration: 500,    // ms – fade-in duration for dropBall
-    arcHeight: 10,        // extra radius at the peak of the arc
+    shotDuration: 1500, // ms – how long the shot animation takes
+    dropDuration: 500, // ms – fade-in duration for dropBall
+    arcHeight: 10, // extra radius at the peak of the arc
   },
 
   // ── Trial Timing ──
@@ -47,7 +49,7 @@ export const defaultConfig = {
  * Helper: derive pixel values from a config object.
  * Call this once and pass the result wherever you need px values.
  */
-export function derivePixels(config) {
+export function derivePixels(config: typeof defaultConfig) {
   const s = config.scale;
   return {
     courtW: config.courtWidthFt * s,

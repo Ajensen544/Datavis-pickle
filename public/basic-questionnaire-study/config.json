@@ -101,8 +101,8 @@
         "pickleball-trial1": {
             "baseComponent": "pickletrial",
             "parameters": {
-                "startX": 1,
-                "startY": 1,
+                "startX": 12,
+                "startY": 12,
                 "courtColor": "green",
                 "ballColor": "yellow"
             }    
@@ -112,8 +112,11 @@
             "parameters": {
                 "startX": 1,
                 "startY": 1,
+                "endX": 30,
+                "endY": 10,
                 "courtColor": "green",
-                "ballColor": "blue"
+                "ballColor": "blue",
+                "percentageOfArc": 100
             }    
         },
         "pickleball-trial3": {
