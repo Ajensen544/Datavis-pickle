@@ -95,15 +95,7 @@ export async function createTrialEngine(
 ): Promise<{ results: TrialResult[] }> {
   const { scale } = config;
 
-  // Fetch starting trial ID from server to ensure unique IDs across sessions
-  let startId = 1;
-  try {
-    const resp = await fetch('/api/next-id');
-    const data = await resp.json();
-    startId = data.nextId;
-  } catch (e) {
-    console.warn(`Error: ${e} Could not fetch next ID, starting at 1`);
-  }
+  const startId = 1;
 
   let currentTrial = 0;
   let canClick = false;
@@ -186,20 +178,6 @@ export async function createTrialEngine(
     };
 
     results.push(trialResult);
-    // console.log(
-    //   `Trial ${trialResult.trialId} | `
-    //             + `Start: (${trialResult.startX}, ${trialResult.startY}) → `
-    //             + `End: (${trialResult.endX}, ${trialResult.endY}) | `
-    //             + `Guess: (${trialResult.guessX}, ${trialResult.guessY}) | `
-    //             + `Error: ${trialResult.errorFt} ft`,
-    // );
-
-    // Save trial result to server
-    // fetch('/api/log', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(trialResult),
-    // }).catch((err) => console.warn('Could not save trial:', err));
 
     svg
       .append('circle')
