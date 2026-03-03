@@ -2,26 +2,28 @@ import { IndividualComponent, ParsedStringOption } from '../parser/types';
 import { parseStringOptions, parseStringOptionValue } from './stringOptions';
 
 export function randomizeForm(componentConfig: IndividualComponent) {
-  const response = componentConfig.response.map((r) => r.id);
+  const responses = componentConfig.response ?? [];
+  const response = responses.map((r) => r.id);
 
   if (componentConfig.responseOrder === 'random') {
-    const fixedIndices = componentConfig.response.flatMap((r, i) => (r.excludeFromRandomization ? [i] : []));
-    const shuffled = componentConfig.response
+    const fixedIndices = responses.flatMap((r, i) => (r.excludeFromRandomization ? [i] : []));
+    const shuffled = responses
       .filter((r) => !r.excludeFromRandomization)
       .map((r) => r.id)
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
-    return { response: componentConfig.response.map((r, i) => (fixedIndices.includes(i) ? r.id : shuffled.shift()!)) };
+    return { response: responses.map((r, i) => (fixedIndices.includes(i) ? r.id : shuffled.shift()!)) };
   }
 
   return { response };
 }
 
 export function randomizeOptions(componentConfig: IndividualComponent) {
-  return componentConfig.response.reduce((acc, response) => {
+  const responses = componentConfig.response ?? [];
+  return responses.reduce((acc, response) => {
     if (response.type === 'radio' || response.type === 'checkbox' || response.type === 'buttons') {
-      const options = parseStringOptions(response.options);
+      const options = parseStringOptions(response.options ?? []);
       if (response.optionOrder === 'random') {
         const shuffled = [...options]
           .map((value) => ({ value, sort: Math.random() }))
@@ -37,9 +39,10 @@ export function randomizeOptions(componentConfig: IndividualComponent) {
 }
 
 export function randomizeQuestionOrder(componentConfig: IndividualComponent) {
-  return componentConfig.response.reduce((acc, response) => {
+  const responses = componentConfig.response ?? [];
+  return responses.reduce((acc, response) => {
     if (response.type === 'matrix-radio' || response.type === 'matrix-checkbox') {
-      const questions = response.questionOptions
+      const questions = (response.questionOptions ?? [])
         .map((question) => parseStringOptionValue(question));
       if (response.questionOrder === 'random') {
         const shuffled = [...questions]
