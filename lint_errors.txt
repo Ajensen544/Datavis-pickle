@@ -1,0 +1,10 @@
+C:\Users\zsglu\git\Datavis-pickle\src\public\basic-questionnaire-study\assets\config.ts
+  L11:3 [no-param-reassign] Assignment to function parameter 's'.
+  L11:13 [no-param-reassign] Assignment to function parameter 'v'.
+  L13:40 [no-mixed-operators] Unexpected mix of '%' and '-'. Use parentheses to clarify the intended order of operations.
+  L13:44 [no-mixed-operators] Unexpected mix of '%' and '-'. Use parentheses to clarify the intended order of operations.
+  L16:38 [brace-style] Closing curly brace does not appear on the same line as the subsequent block.
+  L17:44 [brace-style] Closing curly brace does not appear on the same line as the subsequent block.
+  L18:44 [brace-style] Closing curly brace does not appear on the same line as the subsequent block.
+  L19:44 [brace-style] Closing curly brace does not appear on the same line as the subsequent block.
+  L20:44 [brace-style] Closing curly brace does not appear on the same line as the subsequent block.

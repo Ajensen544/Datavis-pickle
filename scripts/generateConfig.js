@@ -1,18 +1,34 @@
 import fs from 'fs';
 
-// ── Color palettes ───────────────────────────────────────────
+// ── HSV to Hex helper ────────────────────────────────────────
+function hsv(h, s, v) {
+    s /= 100; v /= 100;
+    const c = v * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = v - c;
+    let r, g, b;
+    if (h < 60) { r = c; g = x; b = 0; }
+    else if (h < 120) { r = x; g = c; b = 0; }
+    else if (h < 180) { r = 0; g = c; b = x; }
+    else if (h < 240) { r = 0; g = x; b = c; }
+    else if (h < 300) { r = x; g = 0; b = c; }
+    else { r = c; g = 0; b = x; }
+    return '#' + [r + m, g + m, b + m].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+}
+
+// ── Color palettes (defined in HSV) ──────────────────────────
 const BALL_COLORS = {
-    neonYellow: "#ccff00",
-    orange: "#ff6600",
-    hotPink: "#ff69b4",
-    cyan: "#00e5ff",
+    neonYellow: hsv(62, 100, 94),
+    orange: hsv(27, 100, 99),
+    pink: hsv(325, 80, 95),
+    neonGreen: hsv(76, 69, 98),
 };
 const COURT_COLORS = {
-    blue: "#1a237e",
-    green: "#2e7d32",
-    purple: "#4a148c",
-    red: "#c62828",
+    default: hsv(198, 71, 56),
+    gray: hsv(200, 37, 35),
+    red: hsv(351, 86, 89),
 };
+const KITCHEN_COLOR = hsv(103, 31, 63);
 
 // ─────────────────────────────────────────────────────────────
 // Court geometry in React (pickletrial.tsx):
@@ -66,7 +82,7 @@ function generateTrials(prefix, count, ranges, extras) {
 
         const courtColor = Array.isArray(extras.courtColors)
             ? extras.courtColors[Math.floor(Math.random() * extras.courtColors.length)]
-            : (extras.courtColor || COURT_COLORS.blue);
+            : (extras.courtColor || COURT_COLORS.default);
 
         generated[id] = {
             baseComponent: "pickletrial",
@@ -91,7 +107,7 @@ function generateTrials(prefix, count, ranges, extras) {
 
 // Fixed practice trials (Right half to Left half)
 const practiceTrials = {
-    "pickleball-practice1": { "baseComponent": "pickletrial", "parameters": { "taskid": "pickleballAnswer", "shotType": "practice", "startX": 40, "startY": 2, "endX": 10, "endY": 18, "courtColor": "#1a237e", "ballColor": "#ccff00", "percentageOfArc": 95 } },
+    "pickleball-practice1": { "baseComponent": "pickletrial", "parameters": { "taskid": "pickleballAnswer", "shotType": "practice", "startX": 40, "startY": 2, "endX": 10, "endY": 18, "courtColor": "#29708f", "ballColor": "#e8f000", "percentageOfArc": 95 } },
     //"pickleball-practice2": { "baseComponent": "pickletrial", "parameters": { "taskid": "pickleballAnswer", "shotType": "practice", "startX": 38, "startY": 10, "endX": 18, "endY": 5, "courtColor": "#1a237e", "ballColor": "#ccff00", "percentageOfArc": 95 } },
     //"pickleball-practice3": { "baseComponent": "pickletrial", "parameters": { "taskid": "pickleballAnswer", "shotType": "practice", "startX": 42, "startY": 15, "endX": 5, "endY": 15, "courtColor": "#1a237e", "ballColor": "#ccff00", "percentageOfArc": 95 } },
     //"pickleball-practice4": { "baseComponent": "pickletrial", "parameters": { "taskid": "pickleballAnswer", "shotType": "practice", "startX": 30, "startY": 5, "endX": 19, "endY": 10, "courtColor": "#1a237e", "ballColor": "#ccff00", "percentageOfArc": 95 } },
@@ -101,10 +117,10 @@ const practiceIds = Object.keys(practiceTrials);
 
 const allComponents = { ...practiceTrials };
 
-// ── Baseline (Blue court, Yellow ball) ─────────────────────────
-const baselineDrives = generateTrials("baseline-drive", 1, DRIVE, { ballColor: BALL_COLORS.neonYellow, courtColor: COURT_COLORS.blue });
-const baselineDrops = generateTrials("baseline-drop", 1, DROP, { ballColor: BALL_COLORS.neonYellow, courtColor: COURT_COLORS.blue });
-const baselineLobs = generateTrials("baseline-lob", 1, LOB, { ballColor: BALL_COLORS.neonYellow, courtColor: COURT_COLORS.blue });
+// ── Baseline (Default court, Yellow ball) ─────────────────────────
+const baselineDrives = generateTrials("baseline-drive", 1, DRIVE, { ballColor: BALL_COLORS.neonYellow, courtColor: COURT_COLORS.default });
+const baselineDrops = generateTrials("baseline-drop", 1, DROP, { ballColor: BALL_COLORS.neonYellow, courtColor: COURT_COLORS.default });
+const baselineLobs = generateTrials("baseline-lob", 1, LOB, { ballColor: BALL_COLORS.neonYellow, courtColor: COURT_COLORS.default });
 Object.assign(allComponents, baselineDrives.components, baselineDrops.components, baselineLobs.components);
 const baselineIds = [...baselineDrives.ids, ...baselineDrops.ids, ...baselineLobs.ids];
 
@@ -113,13 +129,13 @@ let driveIds = [...baselineDrives.ids];
 let dropIds = [...baselineDrops.ids];
 let lobIds = [...baselineLobs.ids];
 
-const ballColors = [BALL_COLORS.orange, BALL_COLORS.hotPink, BALL_COLORS.cyan];
+const ballColors = [BALL_COLORS.orange, BALL_COLORS.pink, BALL_COLORS.neonGreen];
 let ballColorBlocks = [];
 ballColors.forEach((color, idx) => {
-    let name = color === BALL_COLORS.orange ? 'orange' : color === BALL_COLORS.hotPink ? 'pink' : 'cyan';
-    const dr = generateTrials(`ball-${name}-drive`, 1, DRIVE, { ballColor: color, courtColor: COURT_COLORS.blue });
-    const dp = generateTrials(`ball-${name}-drop`, 1, DROP, { ballColor: color, courtColor: COURT_COLORS.blue });
-    const lb = generateTrials(`ball-${name}-lob`, 1, LOB, { ballColor: color, courtColor: COURT_COLORS.blue });
+    let name = color === BALL_COLORS.orange ? 'orange' : color === BALL_COLORS.pink ? 'pink' : 'neongreen';
+    const dr = generateTrials(`ball-${name}-drive`, 1, DRIVE, { ballColor: color, courtColor: COURT_COLORS.default });
+    const dp = generateTrials(`ball-${name}-drop`, 1, DROP, { ballColor: color, courtColor: COURT_COLORS.default });
+    const lb = generateTrials(`ball-${name}-lob`, 1, LOB, { ballColor: color, courtColor: COURT_COLORS.default });
     Object.assign(allComponents, dr.components, dp.components, lb.components);
     ballColorBlocks.push({
         order: "random",
@@ -127,10 +143,10 @@ ballColors.forEach((color, idx) => {
     });
 });
 
-const courtColors = [COURT_COLORS.green, COURT_COLORS.purple, COURT_COLORS.red];
+const courtColors = [COURT_COLORS.gray, COURT_COLORS.red];
 let courtColorBlocks = [];
 courtColors.forEach((color, idx) => {
-    let name = color === COURT_COLORS.green ? 'green' : color === COURT_COLORS.purple ? 'purple' : 'red';
+    let name = color === COURT_COLORS.gray ? 'gray' : 'red';
     const dr = generateTrials(`court-${name}-drive`, 1, DRIVE, { ballColor: BALL_COLORS.neonYellow, courtColor: color });
     const dp = generateTrials(`court-${name}-drop`, 1, DROP, { ballColor: BALL_COLORS.neonYellow, courtColor: color });
     const lb = generateTrials(`court-${name}-lob`, 1, LOB, { ballColor: BALL_COLORS.neonYellow, courtColor: color });
