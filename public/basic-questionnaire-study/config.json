@@ -18,7 +18,7 @@
         "helpTextPath": "basic-questionnaire-study/assets/help.md",
         "logoPath": "revisitAssets/revisitLogoSquare.svg",
         "withProgressBar": true,
-        "autoDownloadStudy": true,
+        "autoDownloadStudy": false,
         "withSidebar": true
     },
     "baseComponents": {
@@ -31,9 +31,10 @@
             "response": [
                 {
                     "id": "pickleballAnswer",
-                    "prompt": "Your predicted pickleball landing position",
-                    "location": "sidebar",
-                    "type": "reactive"
+                    "prompt": "",
+                    "location": "belowStimulus",
+                    "type": "reactive",
+                    "hidden": true
                 }
             ]
         }

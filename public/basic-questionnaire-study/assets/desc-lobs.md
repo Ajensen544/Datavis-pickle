@@ -1,3 +1,3 @@
 # Lobs
 
-Now, you will see a series of LOB shots.
+Now, you will see a series of lob shots.

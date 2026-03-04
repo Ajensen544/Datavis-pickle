@@ -1,3 +1,3 @@
 # Ball Colors
 
-Now, you will see a series of shots with different BALL COLORS.
+Now, you will see a series of shots with different ball colors.

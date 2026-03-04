@@ -1,3 +1,3 @@
 # Drives
 
-Now, you will see a series of DRIVE shots.
+Now, you will see a series of drive shots.

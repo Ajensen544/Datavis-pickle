@@ -1,3 +1,3 @@
 # Drops
 
-Now, you will see a series of DROP shots.
+Now, you will see a series of drop shots.

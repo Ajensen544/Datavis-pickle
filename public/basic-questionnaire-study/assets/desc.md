@@ -1,3 +1,3 @@
 # Description
 
-During this quick study you will be asked to view a series of varying images of a pickle ball court with an animation of a ball being hit across the net. Your goal is to click where you believe the ball landed or will land at the end of it's arc. You will first go through a few practice rounds before beginning on the main task. Afterwards feel free to leave feedback or your thoughts.
+During this quick study, you will be asked to view a series of varying images of a pickle ball court with an animation of a ball being hit across the net. Your goal is to click where you believe the ball landed. Only 95% of the ball arc is shown, so be sure to account for that when selecting the landing location. You will first go through a few practice rounds before beginning on the main task. After the practice rounds, you will be asked to leave feedback or your thoughts.
