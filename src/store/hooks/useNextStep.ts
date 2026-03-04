@@ -97,8 +97,11 @@ export function useNextStep() {
 
     const { componentName } = storedAnswer;
 
-    // Get current window events. Splice empties the array and returns the removed elements, which handles clearing the array
-    const currentWindowEvents = windowEvents && 'current' in windowEvents && windowEvents.current ? windowEvents.current.splice(0, windowEvents.current.length) : [];
+    // Empties the array to avoid memory leak, but returns empty to prevent CSV bloat
+    if (windowEvents && 'current' in windowEvents && windowEvents.current) {
+      windowEvents.current.splice(0, windowEvents.current.length);
+    }
+    const currentWindowEvents: never[] = [];
 
     if (dataCollectionEnabled && (storedAnswer.endTime === -1 || clickedPrevious)) {
       const toSave = {

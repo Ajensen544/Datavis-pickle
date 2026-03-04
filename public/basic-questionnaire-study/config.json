@@ -18,24 +18,24 @@
         "helpTextPath": "basic-questionnaire-study/assets/help.md",
         "logoPath": "revisitAssets/revisitLogoSquare.svg",
         "withProgressBar": true,
-        "autoDownloadStudy": false,
+        "autoDownloadStudy": true,
         "withSidebar": true
     },
     "baseComponents": {
         "pickletrial": {
-        "description": "pickleball court react component",
-        "instruction": "Click where you think the pickleball will land",
-        "type": "react-component",
-        "path": "basic-questionnaire-study/assets/pickletrial.tsx",
-        "nextButtonLocation": "sidebar",
-        "response": [
-            {
-            "id": "pickleballAnswer",
-            "prompt": "Your predicted pickleball landing position",
-            "location": "sidebar",
-            "type": "reactive"
-            }
-        ]
+            "description": "pickleball court react component",
+            "instruction": "Click where you think the pickleball will land",
+            "type": "react-component",
+            "path": "basic-questionnaire-study/assets/pickletrial.tsx",
+            "nextButtonLocation": "sidebar",
+            "response": [
+                {
+                    "id": "pickleballAnswer",
+                    "prompt": "Your predicted pickleball landing position",
+                    "location": "sidebar",
+                    "type": "reactive"
+                }
+            ]
         }
     },
     "components": {
@@ -62,7 +62,12 @@
                     "location": "aboveStimulus",
                     "type": "dropdown",
                     "placeholder": "Please select your gender",
-                    "options": ["Male", "Female", "Non-binary", "Prefer not to say"]
+                    "options": [
+                        "Male",
+                        "Female",
+                        "Non-binary",
+                        "Prefer not to say"
+                    ]
                 },
                 {
                     "id": "paddleExperience",
@@ -79,7 +84,11 @@
                     "location": "aboveStimulus",
                     "type": "dropdown",
                     "placeholder": "Please select your vision status",
-                    "options": ["Normal", "Corrected", "Impaired"]
+                    "options": [
+                        "No",
+                        "Corrective lenses",
+                        "Visually impaired"
+                    ]
                 }
             ]
         },
@@ -98,7 +107,13 @@
                     "location": "aboveStimulus",
                     "type": "dropdown",
                     "placeholder": "Please select your enjoyment level",
-                    "options": ["Very Enjoyed", "Enjoyed", "Neutral", "Disliked", "Very Disliked"]
+                    "options": [
+                        "Very Enjoyed",
+                        "Enjoyed",
+                        "Neutral",
+                        "Disliked",
+                        "Very Disliked"
+                    ]
                 },
                 {
                     "id": "feedback",
@@ -109,272 +124,386 @@
                     "placeholder": "Your feedback is appreciated!"
                 }
             ]
-
         },
         "conclusion": {
             "type": "markdown",
             "path": "basic-questionnaire-study/assets/conc.md",
             "response": []
         },
+        "desc-drives": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/desc-drives.md",
+            "response": []
+        },
+        "desc-drops": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/desc-drops.md",
+            "response": []
+        },
+        "desc-lobs": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/desc-lobs.md",
+            "response": []
+        },
         "pickleball-practice1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 20,
-                "endY": 20,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 85
-            }    
-        },
-        "pickleball-practice2": {
-            "baseComponent": "pickletrial",
-            "parameters": {
-                "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 25,
-                "endY": 15,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
-        },
-        "pickleball-practice3": {
-            "baseComponent": "pickletrial",
-            "parameters": {
-                "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 30,
-                "endY": 10,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 90
-            }    
-        },
-        "pickleball-practice4": {
-            "baseComponent": "pickletrial",
-            "parameters": {
-                "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 40,
-                "endY": 8,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
-        },
-        "pickleball-practice5": {
-            "baseComponent": "pickletrial",
-            "parameters": {
-                "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
+                "shotType": "practice",
+                "startX": 40,
+                "startY": 2,
                 "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
+                "endY": 18,
+                "courtColor": "#1a237e",
+                "ballColor": "#ccff00",
                 "percentageOfArc": 95
-            }    
+            }
         },
-        "pickleball-trial-shot1": {
+        "baseline-drive-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 75
-            }    
+                "shotType": "drive",
+                "startX": 41.9,
+                "startY": 14.2,
+                "endX": 4.1,
+                "endY": 2,
+                "speed": 1040,
+                "height": 7.5,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ccff00"
+            }
         },
-        "pickleball-trial-shot2": {
+        "baseline-drop-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 65
-            }    
+                "shotType": "drop",
+                "startX": 37.6,
+                "startY": 18.7,
+                "endX": 18.9,
+                "endY": 16.2,
+                "speed": 1337,
+                "height": 8.4,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ccff00"
+            }
         },
-        "pickleball-trial-shot3": {
+        "baseline-lob-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 73
-            }    
+                "shotType": "lob",
+                "startX": 42.7,
+                "startY": 17.6,
+                "endX": 3.2,
+                "endY": 2.5,
+                "speed": 2294,
+                "height": 17.7,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ccff00"
+            }
         },
-        "pickleball-trial-shot4": {
+        "ball-orange-drive-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 80
-            }    
+                "shotType": "drive",
+                "startX": 43.7,
+                "startY": 3.5,
+                "endX": 1.8,
+                "endY": 13.8,
+                "speed": 937,
+                "height": 6.6,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ff6600"
+            }
         },
-        "pickleball-trial-shot5": {
+        "ball-orange-drop-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 55
-            }    
+                "shotType": "drop",
+                "startX": 43.5,
+                "startY": 1.4,
+                "endX": 19.1,
+                "endY": 6.7,
+                "speed": 1329,
+                "height": 8.1,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ff6600"
+            }
         },
-        "pickleball-trial-court1": {
+        "ball-orange-lob-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(207, 51%, 62%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "lob",
+                "startX": 43.1,
+                "startY": 4.9,
+                "endX": 2.9,
+                "endY": 12.6,
+                "speed": 2333,
+                "height": 17.5,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ff6600"
+            }
         },
-        "pickleball-trial-court2": {
+        "ball-pink-drive-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(214, 84%, 75%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "drive",
+                "startX": 42,
+                "startY": 18.1,
+                "endX": 0.3,
+                "endY": 8.7,
+                "speed": 951,
+                "height": 7.6,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ff69b4"
+            }
         },
-        "pickleball-trial-court3": {
+        "ball-pink-drop-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(351, 49%, 74%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "drop",
+                "startX": 41.7,
+                "startY": 14.6,
+                "endX": 20.9,
+                "endY": 17,
+                "speed": 1281,
+                "height": 11.4,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ff69b4"
+            }
         },
-        "pickleball-trial-court4": {
+        "ball-pink-lob-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(200, 37%, 35%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "lob",
+                "startX": 43.1,
+                "startY": 5.9,
+                "endX": 2.9,
+                "endY": 16.8,
+                "speed": 2330,
+                "height": 21.9,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#ff69b4"
+            }
         },
-        "pickleball-trial-court5": {
+        "ball-cyan-drive-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(40, 53%, 79%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "drive",
+                "startX": 42.3,
+                "startY": 7.7,
+                "endX": 1.7,
+                "endY": 18,
+                "speed": 1068,
+                "height": 6.6,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#00e5ff"
+            }
         },
-        "pickleball-trial-ball1": {
+        "ball-cyan-drop-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(62, 100%, 94%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "drop",
+                "startX": 38.3,
+                "startY": 5.6,
+                "endX": 20.9,
+                "endY": 18,
+                "speed": 1263,
+                "height": 9.8,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#00e5ff"
+            }
         },
-        "pickleball-trial-ball2": {
+        "ball-cyan-lob-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(76, 69%, 98%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "lob",
+                "startX": 42.1,
+                "startY": 3.1,
+                "endX": 3.1,
+                "endY": 7.4,
+                "speed": 2410,
+                "height": 17.1,
+                "percentageOfArc": 95,
+                "courtColor": "#1a237e",
+                "ballColor": "#00e5ff"
+            }
         },
-        "pickleball-trial-ball3": {
+        "court-green-drive-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(27, 100%, 99%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "drive",
+                "startX": 42.9,
+                "startY": 11.5,
+                "endX": 1.7,
+                "endY": 11.4,
+                "speed": 1095,
+                "height": 6.8,
+                "percentageOfArc": 95,
+                "courtColor": "#2e7d32",
+                "ballColor": "#ccff00"
+            }
         },
-        "pickleball-trial-ball4": {
+        "court-green-drop-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(325, 80%, 95%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "drop",
+                "startX": 43.8,
+                "startY": 8.4,
+                "endX": 19.7,
+                "endY": 13.8,
+                "speed": 1409,
+                "height": 11.2,
+                "percentageOfArc": 95,
+                "courtColor": "#2e7d32",
+                "ballColor": "#ccff00"
+            }
         },
-        "pickleball-trial-ball5": {
+        "court-green-lob-1": {
             "baseComponent": "pickletrial",
             "parameters": {
                 "taskid": "pickleballAnswer",
-                "startX": 1,
-                "startY": 1,
-                "endX": 10,
-                "endY": 30,
-                "courtColor": "hsla(198, 71%, 56%, 1)",
-                "ballColor": "hsla(40, 53%, 79%, 1)",
-                "percentageOfArc": 100
-            }    
+                "shotType": "lob",
+                "startX": 43,
+                "startY": 14.4,
+                "endX": 0,
+                "endY": 7,
+                "speed": 2356,
+                "height": 21.5,
+                "percentageOfArc": 95,
+                "courtColor": "#2e7d32",
+                "ballColor": "#ccff00"
+            }
+        },
+        "court-purple-drive-1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "shotType": "drive",
+                "startX": 41.9,
+                "startY": 6.8,
+                "endX": 4.6,
+                "endY": 5.4,
+                "speed": 922,
+                "height": 7.5,
+                "percentageOfArc": 95,
+                "courtColor": "#4a148c",
+                "ballColor": "#ccff00"
+            }
+        },
+        "court-purple-drop-1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "shotType": "drop",
+                "startX": 43.1,
+                "startY": 5.5,
+                "endX": 19.3,
+                "endY": 13.1,
+                "speed": 1545,
+                "height": 11.4,
+                "percentageOfArc": 95,
+                "courtColor": "#4a148c",
+                "ballColor": "#ccff00"
+            }
+        },
+        "court-purple-lob-1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "shotType": "lob",
+                "startX": 43.7,
+                "startY": 1.4,
+                "endX": 1.1,
+                "endY": 4.3,
+                "speed": 2259,
+                "height": 19.3,
+                "percentageOfArc": 95,
+                "courtColor": "#4a148c",
+                "ballColor": "#ccff00"
+            }
+        },
+        "court-red-drive-1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "shotType": "drive",
+                "startX": 43.2,
+                "startY": 18.2,
+                "endX": 4.9,
+                "endY": 7.7,
+                "speed": 896,
+                "height": 5.7,
+                "percentageOfArc": 95,
+                "courtColor": "#c62828",
+                "ballColor": "#ccff00"
+            }
+        },
+        "court-red-drop-1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "shotType": "drop",
+                "startX": 40.6,
+                "startY": 3.2,
+                "endX": 20.7,
+                "endY": 18.5,
+                "speed": 1289,
+                "height": 11,
+                "percentageOfArc": 95,
+                "courtColor": "#c62828",
+                "ballColor": "#ccff00"
+            }
+        },
+        "court-red-lob-1": {
+            "baseComponent": "pickletrial",
+            "parameters": {
+                "taskid": "pickleballAnswer",
+                "shotType": "lob",
+                "startX": 40.9,
+                "startY": 17.3,
+                "endX": 1.8,
+                "endY": 16.6,
+                "speed": 2391,
+                "height": 19,
+                "percentageOfArc": 95,
+                "courtColor": "#c62828",
+                "ballColor": "#ccff00"
+            }
+        },
+        "desc-ball-colors": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/desc-ball.md",
+            "response": []
+        },
+        "desc-court-colors": {
+            "type": "markdown",
+            "path": "basic-questionnaire-study/assets/desc-court.md",
+            "response": []
         }
     },
     "sequence": {
@@ -386,41 +515,88 @@
             {
                 "order": "random",
                 "components": [
-                    "pickleball-practice1",
-                    "pickleball-practice2",
-                    "pickleball-practice3",
-                    "pickleball-practice4",
-                    "pickleball-practice5"
+                    "pickleball-practice1"
                 ]
             },
+            "desc-drives",
             {
                 "order": "random",
                 "components": [
-                    "pickleball-trial-shot1",
-                    "pickleball-trial-shot2",
-                    "pickleball-trial-shot3",
-                    "pickleball-trial-shot4",
-                    "pickleball-trial-shot5"
+                    "baseline-drive-1"
                 ]
             },
+            "desc-drops",
             {
                 "order": "random",
                 "components": [
-                    "pickleball-trial-court1",
-                    "pickleball-trial-court2",
-                    "pickleball-trial-court3",
-                    "pickleball-trial-court4",
-                    "pickleball-trial-court5"
+                    "baseline-drop-1"
                 ]
             },
+            "desc-lobs",
             {
                 "order": "random",
                 "components": [
-                    "pickleball-trial-ball1",
-                    "pickleball-trial-ball2",
-                    "pickleball-trial-ball3",
-                    "pickleball-trial-ball4",
-                    "pickleball-trial-ball5"
+                    "baseline-lob-1"
+                ]
+            },
+            "desc-ball-colors",
+            {
+                "order": "random",
+                "components": [
+                    {
+                        "order": "random",
+                        "components": [
+                            "ball-orange-drive-1",
+                            "ball-orange-drop-1",
+                            "ball-orange-lob-1"
+                        ]
+                    },
+                    {
+                        "order": "random",
+                        "components": [
+                            "ball-pink-drive-1",
+                            "ball-pink-drop-1",
+                            "ball-pink-lob-1"
+                        ]
+                    },
+                    {
+                        "order": "random",
+                        "components": [
+                            "ball-cyan-drive-1",
+                            "ball-cyan-drop-1",
+                            "ball-cyan-lob-1"
+                        ]
+                    }
+                ]
+            },
+            "desc-court-colors",
+            {
+                "order": "random",
+                "components": [
+                    {
+                        "order": "random",
+                        "components": [
+                            "court-green-drive-1",
+                            "court-green-drop-1",
+                            "court-green-lob-1"
+                        ]
+                    },
+                    {
+                        "order": "random",
+                        "components": [
+                            "court-purple-drive-1",
+                            "court-purple-drop-1",
+                            "court-purple-lob-1"
+                        ]
+                    },
+                    {
+                        "order": "random",
+                        "components": [
+                            "court-red-drive-1",
+                            "court-red-drop-1",
+                            "court-red-lob-1"
+                        ]
+                    }
                 ]
             },
             "postsurvey",

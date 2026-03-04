@@ -30,61 +30,68 @@ import { setCourtColor } from './court';
  * @returns {{ results: Array }}
  */
 interface TrialConfig {
-    start: [number, number];
-    end: [number, number];
-    speed?: number;
-    height?: number;
-    percentageOfArc?: number;
-    ballColor?: string;
-    courtColor?: string;
+  start: [number, number];
+  end: [number, number];
+  speed?: number;
+  height?: number;
+  percentageOfArc?: number;
+  ballColor?: string;
+  courtColor?: string;
+  shotType?: string;
+  participantId?: string;
+  demographics?: string;
+  identifier?: string;
 }
 
 interface TrialResult {
-    trialId: number;
-    timestamp: string;
-    startX: number;
-    startY: number;
-    endX: number;
-    endY: number;
-    speed: number;
-    height: number;
-    percentageOfArc: number;
-    ballColor: string;
-    courtColor: string;
-    guessX: number;
-    guessY: number;
-    errorFt: number;
+  participantId: string;
+  trialId: string;
+  shotType: string;
+  demographics: string;
+  timestamp: string;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  speed: number;
+  height: number;
+  percentageOfArc: number;
+  ballColor: string;
+  courtColor: string;
+  guessX: number;
+  guessY: number;
+  errorFt: number;
 }
 
 interface Point {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 }
 
 interface ShotOverrides {
-    speed?: number;
-    height?: number;
-    percentageOfArc?: number;
-    ballColor?: string;
+  speed?: number;
+  height?: number;
+  percentageOfArc?: number;
+  ballColor?: string;
 }
 
 interface Config {
-    scale: number;
-    colors: {
-        court: string;
-        kitchen: string;
-        ball: string;
-        ballStroke: string;
-        guessColor: string;
-        feedbackCorrect: string;
-    };
-    ball: {
-        radius: number;
-        shotDuration: number;
-        dropDuration: number;
-        arcHeight: number;
-    };
-    trialDelay: number;
+  scale: number;
+  colors: {
+    court: string;
+    kitchen: string;
+    ball: string;
+    ballStroke: string;
+    guessColor: string;
+    feedbackCorrect: string;
+  };
+  ball: {
+    radius: number;
+    shotDuration: number;
+    dropDuration: number;
+    arcHeight: number;
+  };
+  trialDelay: number;
 }
 
 export async function createTrialEngine(
@@ -94,8 +101,6 @@ export async function createTrialEngine(
   onComplete?: (results: TrialResult[]) => void,
 ): Promise<{ results: TrialResult[] }> {
   const { scale } = config;
-
-  const startId = 1;
 
   let currentTrial = 0;
   let canClick = false;
@@ -153,12 +158,15 @@ export async function createTrialEngine(
 
     const error = Math.sqrt(
       (guessX - actualLanding.x) ** 2
-                + (guessY - actualLanding.y) ** 2,
+      + (guessY - actualLanding.y) ** 2,
     );
 
     const trial = trials[currentTrial];
     const trialResult: TrialResult = {
-      trialId: startId + currentTrial,
+      participantId: trial.participantId ?? 'unknown',
+      trialId: trial.identifier ?? `unknown-${currentTrial}`,
+      shotType: trial.shotType ?? 'unknown',
+      demographics: trial.demographics ?? '',
       timestamp: new Date().toISOString(),
       startX: trial.start[0],
       startY: trial.start[1],
@@ -179,6 +187,15 @@ export async function createTrialEngine(
 
     results.push(trialResult);
 
+    // Call out to the local Node.js logging server to output the CSV on their local disk instantly!
+    fetch('http://localhost:8081/api/log', {
+      method: 'POST',
+      body: JSON.stringify(trialResult),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).catch((err) => console.error('Error logging trial via standard API:', err));
+
     svg
       .append('circle')
       .attr('cx', mx)
@@ -192,7 +209,7 @@ export async function createTrialEngine(
       .duration(600)
       .attr('r', 20)
       .style('opacity', 0)
-      .on('end', function () {
+      .on('end', function removeCircle() {
         d3.select(this).remove();
       });
 
