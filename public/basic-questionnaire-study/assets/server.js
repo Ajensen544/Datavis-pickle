@@ -6,13 +6,17 @@
  *  • POST /api/log  → appends a trial result row to results.csv.
  */
 
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
+import http from "http";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from 'url';
 
-const PORT = 8080;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const PORT = 8081;
 const CSV_FILE = path.join(__dirname, "results.csv");
-const HEADER = "trialId,timestamp,startX,startY,endX,endY,speed,height,ballColor,courtColor,guessX,guessY,errorFt";
+const HEADER = "participantId,trialId,shotType,timestamp,startX,startY,endX,endY,speed,height,ballColor,courtColor,guessX,guessY,errorFt,demographics";
 
 // ── MIME types for static files ──
 const MIME = {
@@ -26,6 +30,17 @@ const MIME = {
 };
 
 const server = http.createServer((req, res) => {
+    // ── Global CORS setup ──
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
     // ── API: get the next available trial ID ──
     if (req.method === "GET" && req.url === "/api/next-id") {
         let nextId = 1;
@@ -47,10 +62,13 @@ const server = http.createServer((req, res) => {
         req.on("end", () => {
             try {
                 const r = JSON.parse(body);
+                const cleanup = (str) => typeof str === 'string' ? `"${str.replace(/"/g, '""')}"` : `""`;
                 const row = [
-                    r.trialId, r.timestamp, r.startX, r.startY, r.endX, r.endY,
+                    cleanup(r.participantId), cleanup(r.trialId), cleanup(r.shotType),
+                    r.timestamp, r.startX, r.startY, r.endX, r.endY,
                     r.speed, r.height, r.ballColor, r.courtColor,
                     r.guessX, r.guessY, r.errorFt,
+                    cleanup(r.demographics)
                 ].join(",");
 
                 // Ensure header exists (handles mid-run file deletion)

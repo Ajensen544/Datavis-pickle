@@ -1,0 +1,7 @@
+C:\Users\zsglu\git\Datavis-pickle\src\public\basic-questionnaire-study\assets\pickletrial.tsx
+  157:16 Expected to return a value at the end of arrow function.
+C:\Users\zsglu\git\Datavis-pickle\src\public\basic-questionnaire-study\assets\trial.ts
+  105:9 'startId' is assigned a value but never used. Allowed unused vars must match /^_/u.
+  214:18 Unexpected unnamed function.
+C:\Users\zsglu\git\Datavis-pickle\src\store\hooks\useNextStep.ts
+  104:32 Unexpected any. Specify a different type.

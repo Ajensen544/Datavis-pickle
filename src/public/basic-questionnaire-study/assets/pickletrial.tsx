@@ -1,6 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import { StimulusParams } from '../../../store/types';
+import { useNextStep } from '../../../store/hooks/useNextStep';
+import { useStoreSelector } from '../../../store/store';
+import { useCurrentIdentifier } from '../../../routes/utils';
 // Import trial engine and config helpers
 import { createTrialEngine } from './trial';
 import { defaultConfig, derivePixels } from './config';
@@ -14,10 +17,17 @@ interface TrialInput {
   percentageOfArc?: number;
   ballColor?: string;
   courtColor?: string;
+  shotType?: string;
+  participantId?: string;
+  demographics?: string;
+  identifier?: string;
 }
 
 interface TrialResult {
-  trialId: number;
+  participantId: string;
+  trialId: string;
+  shotType: string;
+  demographics: string;
   timestamp: string;
   startX: number;
   startY: number;
@@ -44,6 +54,7 @@ interface TrialParameters {
   percentageOfArc?: number;
   ballColor?: string;
   courtColor?: string;
+  shotType?: string;
 }
 
 // Accepts parameters for a single trial, or an array of trials
@@ -56,6 +67,15 @@ function PickleTrial({
   const [trialComplete, setTrialComplete] = useState(false);
   const config = defaultConfig;
   const taskid = parameters.taskid ?? 'pickleballAnswer';
+  const { goToNextStep } = useNextStep();
+  const participantId = useStoreSelector((state) => state.participantId);
+  const identifier = useCurrentIdentifier();
+  const participantAnswers = useStoreSelector((state) => state.answers);
+
+  const demographics = Object.entries(participantAnswers)
+    .filter(([key]) => key.startsWith('demographics_') || key.startsWith('introduction_'))
+    .flatMap(([, val]) => Object.values(val.answer))
+    .join(' | ');
 
   const mapDisplayToEngineCoords = (x: number, y: number): [number, number] => {
     const mappedX = y;
@@ -73,6 +93,10 @@ function PickleTrial({
       percentageOfArc: parameters.percentageOfArc,
       ballColor: parameters.ballColor,
       courtColor: parameters.courtColor,
+      shotType: parameters.shotType,
+      participantId,
+      demographics,
+      identifier,
     },
   ];
 
@@ -123,19 +147,22 @@ function PickleTrial({
       setAnswer({
         status: true,
         answers: {
-          [taskid]: JSON.stringify({
-            trialId: lastResult.trialId,
-            guessX: lastResult.guessX,
-            guessY: lastResult.guessY,
-            errorFt: lastResult.errorFt,
-            ballColor: lastResult.ballColor,
-            courtColor: lastResult.courtColor,
-          }),
+          [taskid]: JSON.stringify(lastResult),
         },
       });
     });
     // eslint-disable-next-line
   }, [JSON.stringify(parameters), setAnswer, taskid]);
+
+  useEffect(() => {
+    if (trialComplete) {
+      const timer = setTimeout(() => {
+        goToNextStep();
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, [trialComplete, goToNextStep]);
 
   // results stored in results
 
