@@ -1,0 +1,3 @@
+L43 [@typescript-eslint/no-unused-vars] 'KITCHEN_COLOR' is assigned a value but never used. Allowed unused vars must match /^_/u.
+L92 [no-plusplus] Unary operator '++' used.
+L150 [@typescript-eslint/no-unused-vars] 'baselineIds' is assigned a value but never used. Allowed unused vars must match /^_/u.

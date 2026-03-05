@@ -1,0 +1,3 @@
+﻿yarn run v1.22.22
+$ C:\Users\zsglu\git\Datavis-pickle\node_modules\.bin\eslint src --rule "comma-dangle: error"
+Done in 14.74s.
