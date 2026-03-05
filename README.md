@@ -5,7 +5,7 @@
 
 ## Team
 - Aksel Jensen
-- Zack Gluck
+- Zachary Gluck
 - Jacob Burns
 
 ## Overview 
